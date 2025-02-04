@@ -5,6 +5,7 @@ import { relations } from 'drizzle-orm';
 export const userRoles = ['user', 'admin'] as const;
 export type UserRole = (typeof userRoles)[number];
 export const userRoleEnum = pgEnum('user_role', userRoles);
+import { UserCourseAccessTable } from './userCourseAccess';
 
 export const UserTable = pgTable('users', {
   id,
@@ -17,3 +18,7 @@ export const UserTable = pgTable('users', {
   createdAt,
   updatedAt,
 });
+
+export const UserRelationships = relations(UserTable, ({ many }) => ({
+  userCourseAccesses: many(UserCourseAccessTable),
+}));
